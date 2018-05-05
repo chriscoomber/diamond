@@ -60,21 +60,21 @@ public class Logic implements LogicInterface {
                 drawFrameRow(totalColumns);
             } else {
                 // Any other row, this is a regular diamond piece
-
                 // The diamond body uses a '=' character on odd rows.
-                boolean shouldUseEquals = i % 2 == 1;
+                boolean isDoubleDashed = i % 2 == 1;
 
+                // Recall that the center row has index equal to size
                 if (i < size) {
                     // Top half; draw a normal body row.
                     // The width of the diamond at this point is is 2*i.
-                    drawDiamondRow(totalColumns, 2*i, shouldUseEquals, true);
+                    drawDiamondRow(totalColumns, 2*i, isDoubleDashed, true);
                 } else if (i == size) {
                     // Center row; draw the center
-                    drawDiamondCenterRow(totalColumns, shouldUseEquals);
+                    drawDiamondCenterRow(totalColumns, isDoubleDashed);
                 } else {
                     // Bottom half; draw a normal body row.
                     // The width of the diamond at this point is 2*((totalRows-1)-i).
-                    drawDiamondRow(totalColumns, 2*((totalRows-1)-i), shouldUseEquals, false);
+                    drawDiamondRow(totalColumns, 2*((totalRows-1)-i), isDoubleDashed, false);
                 }
             }
 
@@ -101,9 +101,9 @@ public class Logic implements LogicInterface {
     /**
      * Draw the center row of the diamond.
      * @param totalColumns the number of columns in the whole picture; must be even
-     * @param shouldUseEquals whether this row should use '=' characters instead of '-' characters.
+     * @param isDoubleDashed whether this row should use '=' characters instead of '-' characters.
      */
-    private void drawDiamondCenterRow(int totalColumns, boolean shouldUseEquals){
+    private void drawDiamondCenterRow(int totalColumns, boolean isDoubleDashed){
         // Iterate over the columns to draw, drawing characters.
         for (int j = 0; j <= totalColumns - 1; j++){
             if (j == 0 || j == totalColumns - 1){
@@ -115,10 +115,8 @@ public class Logic implements LogicInterface {
             } else if (j == totalColumns - 2){
                 // Print the right diamond tip
                 mOut.print(">");
-            } else if (shouldUseEquals) {
-                mOut.print("=");
             } else {
-                mOut.print("-");
+                mOut.print(isDoubleDashed ? "=" : "-");
             }
         }
     }
